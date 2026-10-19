@@ -1,0 +1,328 @@
+{
+  "source": "F:\\output_CMORPH_2000_2025",
+  "scope": "26 per-year tables, location_type == 内陆",
+  "total_all": 9409781,
+  "total_land": 1620476,
+  "total_ocean": 7789305,
+  "land_frac_total": 0.172212,
+  "land_frac_by_era": {
+    "A": 0.19876,
+    "B": 0.166377,
+    "C": 0.176236,
+    "D": 0.153856
+  },
+  "land_by_era": {
+    "A": 349961,
+    "B": 630862,
+    "C": 363692,
+    "D": 275961
+  },
+  "all_by_era": {
+    "A": 1760718,
+    "B": 3791759,
+    "C": 2063667,
+    "D": 1793637
+  },
+  "land_total_water_volume_km3": {
+    "p5": 7969706.375,
+    "p25": 22283377.0,
+    "median": 49384661.0,
+    "p75": 111878622.5,
+    "p95": 366298862.5,
+    "sum": 169319684407343.03
+  },
+  "land_total_rain_depth_mm_sampled10pct": {
+    "n_sampled": 162059,
+    "p5": 152.62897099999998,
+    "p25": 402.84002999999996,
+    "median": 862.51996,
+    "p75": 1902.58495,
+    "p95": 6110.748000000002
+  },
+  "land_duration_hours": {
+    "p5": 6.0,
+    "median": 17.0,
+    "p95": 47.5
+  },
+  "land_n_grids": {
+    "p5": 19.0,
+    "median": 41.0,
+    "p95": 206.0
+  },
+  "land_extreme_precip_n": 794,
+  "land_extreme_max30_n": 1228,
+  "land_crosses_dateline_n": 12625,
+  "land_ocean_field_named_n": 0,
+  "ocean_field_named_n": 7789305,
+  "land_continent_top10": {
+    "南美洲": 466294,
+    "亚洲": 433371,
+    "非洲": 349960,
+    "北美洲": 239640,
+    "大洋洲": 101161,
+    "欧洲": 29425,
+    "南极洲": 625
+  },
+  "land_climate_zone_all": {
+    "Aw": 370961,
+    "Af": 239115,
+    "Am": 153515,
+    "Cwa": 147914,
+    "Csa": 100929,
+    "BSh": 77713,
+    "BWk": 72742,
+    "BWh": 69378,
+    "Dwb": 64281,
+    "Cwb": 56630,
+    "Csb": 53980,
+    "Dwc": 38848,
+    "BSk": 38730,
+    "Cfb": 23353,
+    "Dsb": 23310,
+    "Cfa": 21210,
+    "Dsc": 18660,
+    "Dwa": 14829,
+    "Dsa": 9637,
+    "Cwc": 7505,
+    "Dfb": 6590,
+    "ET": 4789,
+    "Dfa": 3625,
+    "Dfc": 2199,
+    "Csc": 31,
+    "Dwd": 1,
+    "EF": 1
+  },
+  "land_country_top20": {
+    "Brazil": 215102,
+    "China": 131772,
+    "United States of America": 121448,
+    "Australia": 76288,
+    "Indonesia": 72813,
+    "Dem. Rep. Congo": 60543,
+    "India": 57584,
+    "Canada": 57535,
+    "Argentina": 53206,
+    "Colombia": 44052,
+    "Peru": 39741,
+    "Mexico": 37412,
+    "Venezuela": 34411,
+    "Russia": 29839,
+    "Bolivia": 22421,
+    "Chile": 21506,
+    "Ethiopia": 18545,
+    "Zambia": 17366,
+    "Central African Rep.": 17287,
+    "Papua New Guinea": 16616
+  },
+  "land_country_n_unique": 224,
+  "per_year": [
+    {
+      "year": 2000,
+      "era": "A",
+      "n_all": 255716,
+      "n_land": 48189,
+      "n_ocean": 207527,
+      "land_frac": 0.188447
+    },
+    {
+      "year": 2001,
+      "era": "A",
+      "n_all": 292598,
+      "n_land": 56468,
+      "n_ocean": 236130,
+      "land_frac": 0.192988
+    },
+    {
+      "year": 2002,
+      "era": "A",
+      "n_all": 297150,
+      "n_land": 57212,
+      "n_ocean": 239938,
+      "land_frac": 0.192536
+    },
+    {
+      "year": 2003,
+      "era": "A",
+      "n_all": 314701,
+      "n_land": 62437,
+      "n_ocean": 252264,
+      "land_frac": 0.198401
+    },
+    {
+      "year": 2004,
+      "era": "A",
+      "n_all": 300255,
+      "n_land": 61706,
+      "n_ocean": 238549,
+      "land_frac": 0.205512
+    },
+    {
+      "year": 2005,
+      "era": "A",
+      "n_all": 300298,
+      "n_land": 63949,
+      "n_ocean": 236349,
+      "land_frac": 0.212952
+    },
+    {
+      "year": 2006,
+      "era": "B",
+      "n_all": 389712,
+      "n_land": 69569,
+      "n_ocean": 320143,
+      "land_frac": 0.178514
+    },
+    {
+      "year": 2007,
+      "era": "B",
+      "n_all": 424213,
+      "n_land": 69761,
+      "n_ocean": 354452,
+      "land_frac": 0.164448
+    },
+    {
+      "year": 2008,
+      "era": "B",
+      "n_all": 433936,
+      "n_land": 71449,
+      "n_ocean": 362487,
+      "land_frac": 0.164653
+    },
+    {
+      "year": 2009,
+      "era": "B",
+      "n_all": 436304,
+      "n_land": 70845,
+      "n_ocean": 365459,
+      "land_frac": 0.162375
+    },
+    {
+      "year": 2010,
+      "era": "B",
+      "n_all": 436879,
+      "n_land": 70525,
+      "n_ocean": 366354,
+      "land_frac": 0.161429
+    },
+    {
+      "year": 2011,
+      "era": "B",
+      "n_all": 410823,
+      "n_land": 67995,
+      "n_ocean": 342828,
+      "land_frac": 0.165509
+    },
+    {
+      "year": 2012,
+      "era": "B",
+      "n_all": 405039,
+      "n_land": 69668,
+      "n_ocean": 335371,
+      "land_frac": 0.172003
+    },
+    {
+      "year": 2013,
+      "era": "B",
+      "n_all": 429261,
+      "n_land": 71814,
+      "n_ocean": 357447,
+      "land_frac": 0.167297
+    },
+    {
+      "year": 2014,
+      "era": "B",
+      "n_all": 425592,
+      "n_land": 69236,
+      "n_ocean": 356356,
+      "land_frac": 0.162682
+    },
+    {
+      "year": 2015,
+      "era": "C",
+      "n_all": 376516,
+      "n_land": 65213,
+      "n_ocean": 311303,
+      "land_frac": 0.173201
+    },
+    {
+      "year": 2016,
+      "era": "C",
+      "n_all": 366666,
+      "n_land": 65277,
+      "n_ocean": 301389,
+      "land_frac": 0.178029
+    },
+    {
+      "year": 2017,
+      "era": "C",
+      "n_all": 354627,
+      "n_land": 63142,
+      "n_ocean": 291485,
+      "land_frac": 0.178052
+    },
+    {
+      "year": 2018,
+      "era": "C",
+      "n_all": 341719,
+      "n_land": 61367,
+      "n_ocean": 280352,
+      "land_frac": 0.179583
+    },
+    {
+      "year": 2019,
+      "era": "C",
+      "n_all": 319930,
+      "n_land": 56802,
+      "n_ocean": 263128,
+      "land_frac": 0.177545
+    },
+    {
+      "year": 2020,
+      "era": "C",
+      "n_all": 304209,
+      "n_land": 51891,
+      "n_ocean": 252318,
+      "land_frac": 0.170577
+    },
+    {
+      "year": 2021,
+      "era": "D",
+      "n_all": 377122,
+      "n_land": 58623,
+      "n_ocean": 318499,
+      "land_frac": 0.155448
+    },
+    {
+      "year": 2022,
+      "era": "D",
+      "n_all": 358735,
+      "n_land": 56387,
+      "n_ocean": 302348,
+      "land_frac": 0.157183
+    },
+    {
+      "year": 2023,
+      "era": "D",
+      "n_all": 362263,
+      "n_land": 56001,
+      "n_ocean": 306262,
+      "land_frac": 0.154587
+    },
+    {
+      "year": 2024,
+      "era": "D",
+      "n_all": 356686,
+      "n_land": 52920,
+      "n_ocean": 303766,
+      "land_frac": 0.148366
+    },
+    {
+      "year": 2025,
+      "era": "D",
+      "n_all": 338831,
+      "n_land": 52030,
+      "n_ocean": 286801,
+      "land_frac": 0.153557
+    }
+  ]
+}

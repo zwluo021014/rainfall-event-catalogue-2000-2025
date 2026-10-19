@@ -1,0 +1,79 @@
+降雨事件数据字典（修订版 v2） / Rainfall Event Data Dictionary (REVISED)
+=================================================================
+修订日期 2026-09-04
+修订依据：以 detection 脚本 rainfall_event_detection.py 实测 CONFIG 为准，
+         原 data_dictionary.txt 中部分参数与脚本不一致，已在此版更正。
+         变更项见文末「变更日志」。
+
+字段名                        类型      说明
+-----                        ----      ----
+event_id                     string    全局唯一事件ID (全年: YYYY_NNNNNN)
+start_time                   datetime  事件开始时间 (UTC)
+end_time                     datetime  事件结束时间 (UTC)
+duration_hours               float     事件持续时间 (小时)
+total_rain_depth             float     事件内所有网格降雨量求和 (mm·grid数, 面积量纲, 非事件降水量)
+total_water_volume           float     事件总水量 (m³, 公式: avg_precip_depth × n_grids × grid_area × cos(lat))
+avg_precip_depth             float     事件平均格点降雨深 (mm/grid, 实际降雨强度)
+max_30min_rain               float     事件内最大30分钟降雨量 (mm)
+max_30min_intensity          float     事件内最大30分钟雨强 (mm/hr = max_30min_rain × 2)
+max_30min_time               datetime  最大30分钟降雨发生时间
+mean_intensity               float     条件平均雨强 (mm/hr, 仅统计有降水格点的平均雨强)
+mean_intensity_all           float     全网格平均雨强 (mm/hr, = avg_precip_depth / duration_hours)
+n_grids                      int       事件包含的网格点数
+lon_min, lon_max             float     事件边界经度范围 (度, 0-360, 跨日界线时 lon_min>lon_max)
+lon_range_circular           float     循环经度跨度 (度, 0-180, 跨日界线事件的真实经度范围)
+crosses_dateline             int       是否跨0°/360°日界线 (1=是, 0=否)
+lat_min, lat_max             float     事件边界纬度范围 (度, -90~90)
+center_lon, center_lat       float     事件空间质心 (网格中位数; lon 0-360)
+location_type                string    海陆分类: 内陆 / 海洋   ★实测仅2类 (原字典误写4类)
+continent                    string    所属大洲 (海洋事件标为"海洋")
+ocean                        string    海洋名称 (海洋事件, 如"热带太平洋"; 陆地事件为空)
+climate_zone                 string    柯本气候分区 (陆地=真实Köppen码如 Af/Aw/Cwa; 海洋=语义化海洋分区如"热带太平洋海洋")
+country                      string    国家名称 (陆地事件; 海洋事件为空)
+confidence                   float     事件置信度 (0-1, 基于 n_grids/duration/intensity 的启发式)
+is_extreme_precip            int       极端降水标志 (1 = avg_precip_depth > 200 mm, 0=否, 不截断)
+is_extreme_max30             int       极端30min雨强标志 (1 = max_30min_rain > 100 mm, 0=否, 不截断)
+era                          string    非均一性时段标签 A/B/C/D (随数据集发布新增, 非原检测脚本输出)
+month                        int       事件起始月 (1-12)
+
+关键参数（以 rainfall_event_detection.py 实测 CONFIG 为准）
+-----------------------------------------------------------
+- 数据: CMORPH V1.0 ADJ, 8 km / 30 min, 全球 (±60°)
+- 空间分辨率: 0.072° (原始, 无重采样)
+- 3D-DBSCAN: eps = 0.8° (≈89 km 大圆), minPts = 10   ★原字典误写 minPts=5
+- 湿格点判定: rain rate > 气候自适应阈值
+    * 阈值按 Köppen 气候区 (koppen_climate_params): Af/Am/Aw 0.03–0.06,
+      B 区 0.15–0.25, C 区 0.08–0.12, D 区 0.15, E 区 0.20 mm/h
+    * 纬度带回退 (lat_bands): 热带 0.05, 副热带 0.10, 温带 0.15, 极地 0.20 mm/h
+    * 全局默认 0.10 mm/h (zone 查找失败时)
+- IETD (事件间隔时间): 气候自适应
+    * 按 Köppen: 热带 3–5 h, 副热带/温带 6–8 h, 干旱/极地 12–15 h
+    * 全局默认 6 h; 候选集 [3, 6, 9, 12] h
+- 事件过滤:
+    * min_rain_per_event = 0.5 mm
+    * min_area_pixels = 10 (连续湿格点下限)   ★原字典误写"海洋25/陆地5" (实测无海陆区分)
+    * min_duration_hours = 0.5 h
+    * 时长 > 7 天 视为物理异常, 拆分/丢弃
+- 时间缩放因子 (DBSCAN 时间维): 默认 10.0
+- 极端值处理: 两阶段
+    * 软约束 (avg_obs×10): 可疑值仅警告不截断
+    * 硬约束 (>avg_obs×20 且 >200 mm): 截断到 200 mm
+    * 极端事件用 is_extreme_precip / is_extreme_max30 标志位标记 (不截断)
+
+注意
+----
+- total_rain_depth 是所有网格点的降雨量求和, 面积量纲, 不应直接作为"事件降水量"
+- 事件降水量请使用 avg_precip_depth (mm/grid) 或 total_water_volume (m³)
+- 海洋事件的 climate_zone 为语义化海洋分区
+
+=================================================================
+变更日志 (v1 → v2)
+-----------------------------------------------------------------
+1. DBSCAN minPts: 5 → 10 (脚本实测 dbscan_minPts=10)
+2. 最小事件网格数: "海洋25/陆地5" → min_area_pixels=10, 无海陆区分
+3. location_type: 原写 4 类(内陆/沿海/近海/海洋) → 实测仅 2 类(内陆/海洋)
+4. 移除原字典中"碎裂事件过滤 n_grids≤18 且 bbox>5000km²"条目:
+   该独立过滤在发布脚本中不存在; 有效面积阈值为 min_area_pixels=10
+5. 阈值/IETD 明确为按 Köppen 气候区映射 (koppen_climate_params) + 纬度带回退,
+   与脚本 get_koppen_params / get_adaptive_params 一致
+6. 新增 era 标签字段说明 (A 2000–05 / B 2006–14 / C 2015–20 / D 2021–25)

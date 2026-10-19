@@ -1,0 +1,19 @@
+# Data — archived on Zenodo, never in git (GitHub hard limit 100 MB/file)
+*.csv
+!docs/land_subset_by_year.csv
+rainfall_events_*.csv
+DEFECTIVE_DO_NOT_USE_*
+
+# Third-party validation caches (NOAA NCEI public domain; re-downloaded by scripts)
+ghcnd_dly/
+ghcnd-inventory.txt
+
+# Validation outputs
+validation_*.json
+validate_*.log
+formula_validation_*.json
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

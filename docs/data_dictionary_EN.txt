@@ -1,0 +1,147 @@
+Rainfall Event Data Dictionary (English, submission version)
+=========================================================
+
+Catalogue : A 26-year (2000-2025) global rainfall event catalogue derived from
+            CMORPH V1.0 ADJ (8 km / 30 min)
+Files     : rainfall_events_YYYY_fullyear.csv, one per year, 26 files
+Schema    : **29 columns, identical in all 26 files** (verified by MD5 of the
+            header row: all 26 headers hash to e7271443)
+Records   : 9,409,781 events total (ocean 7,789,305; land 1,620,476)
+
+Column order is exactly as listed below.
+
+
+FIELD DEFINITIONS (29 columns, in file order)
+---------------------------------------------
+event_id                string    Global unique event identifier, YYYY_NNNNNN
+start_time              datetime  Event start time (UTC)
+end_time                datetime  Event end time (UTC)
+duration_hours          float     Event duration (h) = end_time - start_time
+total_rain_depth        float     Sum of rain over all wet grid cells
+                                  (units mm x grid-cells: an AREAL quantity, NOT an
+                                  event precipitation total -- see Notes)
+total_water_volume      float     Event water volume (m3), computed as
+                                  avg_precip_depth x n_grids x grid_area x cos(lat)
+avg_precip_depth        float     Mean rain depth over wet grid cells
+                                  (mm/grid) -- this is the event mean intensity
+max_30min_rain          float     Maximum 30-min rainfall within the event (mm)
+max_30min_intensity     float     Maximum 30-min intensity (mm/h) = max_30min_rain x 2
+max_30min_time          datetime  Time of occurrence of the maximum 30-min rainfall
+mean_intensity          float     Conditional mean intensity (mm/h), averaged over
+                                  wet cells only
+mean_intensity_all      float     All-grid mean intensity (mm/h)
+                                  = avg_precip_depth / duration_hours
+n_grids                 int       Number of wet grid cells in the event
+lon_min                 float     Event bounding-box longitude, min (deg, 0-360).
+                                  For a date-line-crossing event lon_min > lon_max
+lon_max                 float     Event bounding-box longitude, max (deg, 0-360)
+lon_range_circular      float     Circular longitude span (deg, 0-180); the true
+                                  span for date-line-crossing events
+crosses_dateline        int       1 if the event crosses the 0/360 deg date line, else 0
+lat_min                 float     Event bounding-box latitude, min (deg)
+lat_max                 float     Event bounding-box latitude, max (deg)
+center_lon              float     Event centroid longitude (deg, 0-360)
+center_lat              float     Event centroid latitude (deg)
+location_type           string    Land/ocean class. **Two values only:**
+                                  "inland" (1,620,476 events) or "ocean"
+                                  (7,789,305 events). Values are stored in Chinese
+                                  ("内陆" / "海洋") in the delivered files
+continent               string    Continent name; set to "ocean" for oceanic events
+ocean                   string    Named ocean region for oceanic events
+                                  (e.g. tropical Pacific); empty for land events
+climate_zone            string    Land: true Koppen-Geiger code (e.g. Af, Aw, Cwa).
+                                  Ocean: semantic ocean zone (e.g. "热带太平洋海洋")
+country                 string    Country name for land events; empty for oceanic events
+confidence              float     Heuristic event confidence 0-1, derived from
+                                  n_grids / duration / intensity
+is_extreme_precip       int       1 if avg_precip_depth > 200 mm, else 0.
+                                  Non-truncating flag
+is_extreme_max30        int       1 if max_30min_rain > 100 mm, else 0.
+                                  Non-truncating flag
+
+Locales: string-valued fields (location_type, continent, ocean, climate_zone,
+country) are stored in Chinese in the delivered CSVs.
+
+
+DERIVED FIELDS (not stored in the CSV)
+--------------------------------------
+era                     string    Inhomogeneity era, derived from start_time:
+                                  A = 2000-2005, B = 2006-2014,
+                                  C = 2015-2020, D = 2021-2025.
+                                  Users should derive this rather than expect it as a
+                                  column, so that the partition rule stays explicit.
+month                   int       Calendar month of start_time (1-12), likewise derived.
+
+Derivation (pandas):
+
+    y = df["start_time"].dt.year
+    df = df.assign(
+        era=pd.cut(y, bins=[1999, 2005, 2014, 2020, 2025],
+                   labels=["A", "B", "C", "D"]),
+        month=df["start_time"].dt.month,
+    )
+
+Note: an event whose start_time and end_time fall in different eras is assigned by
+start_time. Exclude boundary-spanning events if your analysis window is short.
+
+
+PIPELINE PARAMETERS (as measured in rainfall_event_detection.py v18.0 CONFIG)
+-----------------------------------------------------------------------------
+Source product      : CMORPH V1.0 ADJ Climate Data Record, 8 km / 30 min,
+                      global, 60S-60N
+Grid                : 1649 (lat) x 4948 (lon), 0.072771 deg spacing, lon 0-360
+                      Native resolution retained; no resampling
+Spatial clustering  : 3D-DBSCAN, eps = 0.8 deg (~89 km great-circle), minPts = 10
+Time scaling factor : 10.0 applied to the 30-min time axis in the 3D distance metric
+Wet-cell definition : rain rate exceeds a climate-adaptive threshold
+                      Koppen primary: Af/Am/Aw 0.03-0.06, B 0.15-0.25,
+                                       C 0.08-0.12, D 0.15, E 0.20 mm/h
+                      Latitude-band fallback: tropical 0.05, subtropical 0.10,
+                                       temperate 0.15, polar 0.20 mm/h
+                      Global default: 0.10 mm/h
+IETD (inter-event    : climate-adaptive; candidate set [3, 6, 9, 12] h
+ time definition)      Koppen: tropical 3-5 h, subtropical/temperate 6-8 h,
+                               arid/polar 12-15 h; global default 6 h
+Event filter        : min_rain_per_event = 0.5 mm
+                      min_area_pixels = 10 contiguous wet cells (no land/ocean
+                          distinction is applied)
+                      min_duration_hours = 0.5 h
+                      events longer than 7 days are split or dropped as physically
+                          implausible
+Extreme handling    : two-stage. Soft constraint (avg_obs x 10): suspicious values
+                      warn but are not truncated. Hard constraint
+                      (>avg_obs x 20 AND >200 mm): truncated to 200 mm.
+                      Extreme events are flagged, not truncated, by
+                      is_extreme_precip / is_extreme_max30
+
+
+NOTES -- read before use
+------------------------
+1. total_rain_depth is a sum over grid cells and carries an area dimension. It is NOT
+   an event precipitation total. For event magnitude use avg_precip_depth (mm/grid) or
+   total_water_volume (m3).
+2. For oceanic events, climate_zone holds a semantic ocean zone, not a Koppen code.
+3. For date-line-crossing events (crosses_dateline = 1), lon_min > lon_max. Use
+   lon_range_circular for the true span and keep the 0-360 convention for center_lon;
+   convert to -180/180 only after handling the wrap.
+4. The three step changes documented in the associated paper (2005/06, 2014/15,
+   2020/21) mean cross-era trend statements are invalid. Analyse within one era.
+5. Values of location_type / continent / ocean / climate_zone / country are Chinese.
+   A localised/ASCII version is a trivial mapping step but is NOT applied here, so that
+   the released files are byte-identical to those used in the analysis.
+
+
+CHANGE LOG (v1 -> v2, 2026-09-04)
+----------------------------------
+1. DBSCAN minPts: 5 -> 10 (measured dbscan_minPts=10 in the script)
+2. Minimum event area: previously documented as "ocean 25 / land 5" -> actually
+   min_area_pixels = 10, with no land/ocean distinction
+3. location_type: previously documented as four classes (inland/coastal/near-shore/
+   ocean) -> measured as two classes only (inland/ocean)
+4. Removed a documented "fragmented event filter: n_grids <= 18 AND bbox > 5000 km2".
+   That filter does not exist in the release script; the operative area threshold is
+   min_area_pixels = 10
+5. Thresholds and IETD specified explicitly as Koppen-zone mappings
+   (koppen_climate_params) with a latitude-band fallback, matching get_koppen_params /
+   get_adaptive_params in the script
+6. era label documented as derived from start_time rather than as a stored column
