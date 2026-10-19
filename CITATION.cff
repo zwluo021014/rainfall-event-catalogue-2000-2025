@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+message: "If you use this software or the associated data, please cite the Zenodo record (DOI to be minted)."
+title: "Rainfall event detection pipeline and validation suite for the CMORPH 2000-2025 global rainfall event catalogue"
+abstract: >-
+  Detection code, validation scripts and documentation for a 26-year (2000-2025)
+  global rainfall event catalogue derived from CMORPH V1.0 ADJ at 8 km / 30 min
+  resolution. The catalogue contains 9,409,781 events and carries a documented
+  four-era non-homogeneity partition that constrains how the record may be used.
+  This archive contains code and documentation only; the catalogue itself is
+  deposited separately under CC-BY-4.0.
+type: software
+version: 1.0.0
+date-released: "2026-10-20"
+license: MIT
+keywords:
+  - precipitation
+  - event catalogue
+  - CMORPH
+  - satellite precipitation
+  - non-homogeneity
+  - DBSCAN
+  - extreme events
+  - hydrology
+  - reproducibility
+authors:
+  - family-names: Luo
+    given-names: Zhiwen
+    affiliation: "Guizhou University"
+identifiers:
+  - type: other
+    value: "Source data: CMORPH V1.0 ADJ Climate Data Record, https://doi.org/10.25921/w9va-q159"
+    description: "The upstream precipitation Climate Data Record from NOAA NCEI."
+references:
+  - type: article
+    title: "Reprocessed, Bias-Corrected CMORPH Global High-Resolution Precipitation Estimates from 1998"
+    authors:
+      - family-names: Xie
+        given-names: Pingping
+      - family-names: Joyce
+        given-names: Robert
+      - family-names: Wu
+        given-names: Shaorong
+    journal: "Journal of Hydrometeorology"
+    volume: 18
+    year: 2017
+    doi: "10.1175/JHM-D-16-0168.1"
+  - type: article
+    title: "CMORPH: A method that produces global precipitation estimates from passive microwave and infrared data at high spatial and temporal resolution"
+    authors:
+      - family-names: Joyce
+        given-names: Robert
+    journal: "Journal of Hydrometeorology"
+    volume: 5
+    year: 2004
+    doi: "10.1175/1525-7541(2004)0052.0.CO;2"
