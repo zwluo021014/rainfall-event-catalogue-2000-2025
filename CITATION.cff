@@ -26,6 +26,9 @@ authors:
   - family-names: Luo
     given-names: Zhiwen
     affiliation: "Guizhou University"
+    # ORCID: to be added. Nature Portfolio requires the corresponding author to
+    # register an ORCID and link it to their account before article acceptance.
+    # GitHub username: zwluo021014
 identifiers:
   - type: other
     value: "Source data: CMORPH V1.0 ADJ Climate Data Record, https://doi.org/10.25921/w9va-q159"
