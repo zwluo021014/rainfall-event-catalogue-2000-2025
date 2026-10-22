@@ -26,8 +26,7 @@ authors:
   - family-names: Luo
     given-names: Zhiwen
     affiliation: "Guizhou University"
-    # ORCID: to be added. Nature Portfolio requires the corresponding author to
-    # register an ORCID and link it to their account before article acceptance.
+    orcid: "https://orcid.org/0009-0001-5673-2572"
     # GitHub username: zwluo021014
 identifiers:
   - type: doi
