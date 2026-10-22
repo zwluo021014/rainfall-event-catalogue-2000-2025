@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software or the associated data, please cite the Zenodo record (DOI to be minted)."
+message: "If you use this software or the associated data, please cite the Zenodo record (DOI: 10.5281/zenodo.23567928)."
 title: "Rainfall event detection pipeline and validation suite for the CMORPH 2000-2025 global rainfall event catalogue"
 abstract: >-
   Detection code, validation scripts and documentation for a 26-year (2000-2025)
@@ -30,6 +30,9 @@ authors:
     # register an ORCID and link it to their account before article acceptance.
     # GitHub username: zwluo021014
 identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23567928
+    description: "The Zenodo code archive for this software."
   - type: other
     value: "Source data: CMORPH V1.0 ADJ Climate Data Record, https://doi.org/10.25921/w9va-q159"
     description: "The upstream precipitation Climate Data Record from NOAA NCEI."

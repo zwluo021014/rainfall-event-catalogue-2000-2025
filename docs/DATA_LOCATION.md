@@ -78,9 +78,9 @@ This prints a single line if the schema claim holds.
 
 > Author(s). (2026). A 26-year (2000–2025) global rainfall event catalogue from
 > CMORPH V1.0 ADJ 8 km/30 min, with documented step-change inhomogeneities.
-> Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+> Zenodo. https://doi.org/10.5281/zenodo.23479140
 
-**The DOI has not been minted yet.** `REPO_README.md` and
-`manuscript_draft.md` both contain `XXXXXXX` placeholders that must be replaced before
-submission. Minting the Zenodo record is an author action and cannot be automated from
-here.
+**Data DOI:** `10.5281/zenodo.23479140` (CC-BY-4.0; embargoed until 2026-12-31,
+metadata public). The `XXXXXXX` placeholders in `REPO_README.md` and `manuscript_draft.md`
+have been replaced with the minted DOIs (data `10.5281/zenodo.23479140`, code
+`10.5281/zenodo.23567928`).
